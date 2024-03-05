@@ -1,0 +1,32 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@next/font": "13.0.7",
+    "@popperjs/core": "^2.11.6",
+    "@web3uikit/core": "^0.1.5",
+    "@web3uikit/icons": "^0.1.5",
+    "@web3uikit/web3": "^0.1.5",
+    "bootstrap": "^5.2.3",
+    "eslint": "8.30.0",
+    "eslint-config-next": "13.0.7",
+    "ethers": "^5.7.2",
+    "face-api.js": "^0.22.2",
+    "jquery": "^3.6.3",
+    "material-dashboard": "^2.1.0",
+    "moralis": "^2.12.0",
+    "moralis-v1": "^1.13.0",
+    "next": "13.0.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-moralis": "^1.4.2",
+    "react-webcam": "^7.0.1"
+  }
+}
