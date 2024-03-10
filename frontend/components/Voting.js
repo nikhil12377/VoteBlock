@@ -12,6 +12,7 @@ import {
   euclideanDistance,
   nets,
 } from "face-api.js";
+import { CHAIN, CHAINID } from "../config";
 
 const WebcamComponent = () => <Webcam />;
 const videoConstraints = {
@@ -196,7 +197,7 @@ export default function Voting() {
                       moralisAuth={false}
                     />
                   </form>
-                  {voterValid ? (
+                  {chainId.toString() !== CHAINID ? <div className="text-danger h4 p-2">Please Connect to {CHAIN}</div> : voterValid ? (
                     alreadyVoted ? (
                       <div className="h4 p-2 text-danger">
                         Voter Already Voted

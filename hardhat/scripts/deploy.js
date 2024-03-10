@@ -1,13 +1,13 @@
 const hre = require("hardhat");
 
 async function main() {
-  const VoteSessionContract = await hre.ethers.getContractFactory(
-    "VoteSession"
+  const VoteBlockContract = await hre.ethers.getContractFactory(
+    "VoteBlock"
   );
-  const VoteSession = await VoteSessionContract.deploy();
-  await VoteSession.deployed();
+  const VoteBlock = await VoteBlockContract.deploy();
+  await VoteBlock.deployed();
 
-  console.log("VoteSessionManager deployed to address:", VoteSession.address);
+  console.log("VoteBlock deployed to address:", VoteBlock.address);
 }
 
 main()

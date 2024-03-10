@@ -3,6 +3,7 @@ import { useMoralis, useWeb3Contract } from "react-moralis";
 import { ConnectButton } from "@web3uikit/web3";
 import { useEffect, useState } from "react";
 import { useNotification } from "@web3uikit/core";
+import { CHAIN, CHAINID } from "../config";
 
 const useContractFunction = (votingAddress, functionName) => {
   return useWeb3Contract({
@@ -12,7 +13,6 @@ const useContractFunction = (votingAddress, functionName) => {
     params: {},
   }).runContractFunction;
 };
-
 export default function Admin() {
   const [errors, setErrors] = useState("");
   const [owner, setOwner] = useState("");
@@ -20,7 +20,7 @@ export default function Admin() {
   const { account } = useMoralis();
   const chainId = parseInt(chainID);
   const dispatch = useNotification();
-
+  console.log(CHAINID === chainId);
   const votingAddress =
     chainId in contractAddress ? contractAddress[chainId] : null;
 
@@ -118,16 +118,18 @@ export default function Admin() {
                     />
                   </div>
                 </form>
+                {chainId.toString() !== CHAINID && <div className="text-danger h4 p-2">Please Connect to {CHAIN}</div>}
                 <div className="row">
                   <div className="col-6">
                     <button
                       className="btn btn-primary"
-                      disabled={account && owner && account.toLowerCase() !== owner.toLowerCase()}
+                      disabled={(account && owner && account.toLowerCase() !== owner.toLowerCase()) || chainId.toString() !== CHAINID}
                       onClick={() => {
                         try {
                           registrationStart({
                             onError: (error) => {
                               handleError(error);
+                              console.log(error);
                             },
                             onSuccess: (tx) => {
                               handleSuccess(tx);
@@ -144,7 +146,7 @@ export default function Admin() {
                   <div className="col-6">
                     <button
                       className="btn btn-primary"
-                      disabled={account && owner && account.toLowerCase() !== owner.toLowerCase()}
+                      disabled={(account && owner && account.toLowerCase() !== owner.toLowerCase()) || chainId.toString() !== CHAINID}
                       onClick={() => {
                         try {
                           votingStart({
@@ -166,7 +168,7 @@ export default function Admin() {
                   <div className="col-6">
                     <button
                       className="btn btn-primary"
-                      disabled={account && owner && account.toLowerCase() !== owner.toLowerCase()}
+                      disabled={(account && owner && account.toLowerCase() !== owner.toLowerCase()) || chainId.toString() !== CHAINID}
                       onClick={async () => {
                         try {
                           declareResult({
@@ -188,7 +190,7 @@ export default function Admin() {
                   <div className="col-6">
                     <button
                       className="btn btn-primary"
-                      disabled={account && owner && account.toLowerCase() !== owner.toLowerCase()}
+                      disabled={(account && owner && account.toLowerCase() !== owner.toLowerCase()) || chainId.toString() !== CHAINID}
                       onClick={async () => {
                         try {
                           startNewElection({

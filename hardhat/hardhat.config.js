@@ -10,12 +10,12 @@ module.exports = {
       chainID: 31337,
       blockConformations: 1,
     },
-    // goerli: {
-    //   chainID: 5,
-    //   blockConformations: 6,
-    //   url: process.env.GOERLI_RPC_PROVIDER,
-    //   accounts: [process.env.PRIVATE_KEY],
-    // },
+    mumbai: {
+      chainID: 80001,
+      blockConformations: 6,
+      url: process.env.PROVIDER,
+      accounts: [process.env.PRIVATE_KEY],
+    },
   },
   namedAccounts: {
     deployer: {

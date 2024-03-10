@@ -1,14 +1,14 @@
-const { ethers } = require("hardhat");
+const { ethers, getNamedAccounts } = require("hardhat");
+const abi = require("./abi.json")
 
 async function register() {
-  const candidate = await ethers.getContract("VoteBlock");
-
-  // console.log(candidate.address);
+  const candidate = await ethers.getContractAt("VoteBlock", "0x5FbDB2315678afecb367f032d93F642f64180aa3");
+  console.log(candidate);
 
   const candidates = [
-    { id: 69, name: "Nikhil" },
-    { id: 999, name: "Sahil" },
-    { id: 666, name: "Ashish" },
+    { id: 555, name: "Rob" },
+    { id: 999, name: "John" },
+    { id: 777, name: "Tyrion" },
   ];
 
   // const str = "abc";

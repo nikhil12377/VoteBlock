@@ -5,6 +5,7 @@ import { abi, contractAddress } from "../constants/index";
 import { useMoralis, useWeb3Contract } from "react-moralis";
 import { useState, useEffect } from "react";
 import { useNotification } from "@web3uikit/core";
+import { CHAIN, CHAINID } from "../config"
 
 const useContractFunction = (votingAddress, functionName, params) => {
   return useWeb3Contract({
@@ -14,6 +15,7 @@ const useContractFunction = (votingAddress, functionName, params) => {
     params: params,
   }).runContractFunction;
 };
+
 
 export default function Candidate() {
   const [regStatus, setRegStatus] = useState("1");
@@ -106,64 +108,65 @@ export default function Candidate() {
                       ""
                     )}
                   </form>
-                  {regStatus == "0" && votingAddress ? (
-                    <div>
-                      <form>
-                        <div className="form-group">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="name"
-                            placeholder="Name"
-                            onChange={(e) => {
-                              setName(e.target.value);
+                  {chainId.toString() !== CHAINID ? <div className="text-danger h4 p-2">Please Connect to {CHAIN}</div> :
+                    regStatus == "0" && votingAddress ? (
+                      <div>
+                        <form>
+                          <div className="form-group">
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="name"
+                              placeholder="Name"
+                              onChange={(e) => {
+                                setName(e.target.value);
+                              }}
+                            />
+                          </div>
+                        </form>
+                        <form>
+                          <div className="form-group">
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="symbol"
+                              placeholder="Unique ID"
+                              onChange={(e) => {
+                                setID(e.target.value);
+                              }}
+                            />
+                          </div>
+                        </form>
+                        <form className="mt-3 d-flex justify-content-center">
+                          <button
+                            disabled={ID == "" || name == "" || alreadyRegistered}
+                            className="btn btn-primary"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              try {
+                                registerCandidate({
+                                  onError: (error) => {
+                                    handleError();
+                                    console.log(error);
+                                  },
+                                  onSuccess: (tx) => {
+                                    handleSuccess(tx);
+                                  },
+                                });
+                              } catch (error) {
+                                console.log(error);
+                              }
                             }}
-                          />
-                        </div>
-                      </form>
-                      <form>
-                        <div className="form-group">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="symbol"
-                            placeholder="Unique ID"
-                            onChange={(e) => {
-                              setID(e.target.value);
-                            }}
-                          />
-                        </div>
-                      </form>
-                      <form className="mt-3 d-flex justify-content-center">
-                        <button
-                          disabled={ID == "" || name == "" || alreadyRegistered}
-                          className="btn btn-primary"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            try {
-                              registerCandidate({
-                                onError: (error) => {
-                                  handleError();
-                                  console.log(error);
-                                },
-                                onSuccess: (tx) => {
-                                  handleSuccess(tx);
-                                },
-                              });
-                            } catch (error) {
-                              console.log(error);
-                            }
-                          }}
-                        >
-                          Register
-                        </button>
-                      </form>
-                    </div>
-                  ) : (
-                    <div className="h4 p-4 text-center">
-                      Registration is closed
-                    </div>
-                  )}
+                          >
+                            Register
+                          </button>
+                        </form>
+                      </div>
+                    ) : (
+                      <div className="h4 p-4 text-center">
+                        Registration is closed
+                      </div>
+                    )}
                 </div>
               </div>
             </div>

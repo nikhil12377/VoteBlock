@@ -12,6 +12,10 @@ const videoConstraints = {
 };
 import { abi, contractAddress } from "../constants/index";
 import { useNotification } from "@web3uikit/core";
+import { CHAIN, CHAINID, FROM_NUMBER } from "../config";
+
+const TWILIO_SID = process.env.NEXT_PUBLIC_TWILIO_SID
+const TWILIO_AUTH_TOKEN = process.env.NEXT_PUBLIC_TWILIO_AUTH_TOKEN
 
 const useContractFunction = (votingAddress, functionName) => {
   return useWeb3Contract({
@@ -33,11 +37,9 @@ export default function VoterReg() {
   const [otp, setOtp] = useState(0);
   const [tempOtp, setTempOtp] = useState(0);
   const [mobileNumber, setMobileNumber] = useState(0);
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+  const [responseCode, setResponseCode] = useState(0);
   const [userAlreadyRegistered, setUserAlreadyRegistered] = useState(false);
   const dispatch = useNotification();
-
   const userAddress = useMoralis().account;
 
   const votingAddress =
@@ -54,26 +56,27 @@ export default function VoterReg() {
     localStorage.setItem("file", JSON.stringify(pictureSrc));
   });
 
+
   async function sendOTP() {
     const temppOtp = Math.floor(100000 + Math.random() * 900000);
-    console.log(temppOtp);
     setOtp(temppOtp);
     try {
-      // await fetch(
-      //   "https://api.twilio.com/2010-04-01/Accounts/AC8aca684b02c6442e8584d964d527eeee/Messages.json",
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/x-www-form-urlencoded",
-      //       Authorization:
-      //         "Basic " +
-      //         btoa(
-      //           "AC8aca684b02c6442e8584d964d527eeee:88efbf012ee91b5fef5a3daa872c0793"
-      //         ),
-      //     },
-      //     body: `Body=Your OTP is ${temppOtp}&From=+19202892049&To=+91${mobileNumber}`,
-      //   }
-      // );
+      const response = await fetch(
+        `https://api.twilio.com/2010-04-01/Accounts/${TWILIO_SID}/Messages.json`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization:
+              "Basic " +
+              btoa(
+                `${TWILIO_SID}:${TWILIO_AUTH_TOKEN}`
+              ),
+          },
+          body: `Body=Your OTP is ${temppOtp}&From=${FROM_NUMBER}&To=+91${mobileNumber}`,
+        }
+      );
+      setResponseCode(response.status);
     } catch (error) {
       console.log(error);
     }
@@ -82,6 +85,7 @@ export default function VoterReg() {
   function verifyOTP() {
     if (otp == tempOtp) {
       setCorrectOtp("true");
+      setResponseCode("");
     } else {
       setCorrectOtp("false");
     }
@@ -118,7 +122,6 @@ export default function VoterReg() {
     }
 
     setUser(userAddress);
-    console.log(userAddress);
     var temp;
     async function check() {
       temp = await checkVoterIsValidOrNot({
@@ -162,7 +165,7 @@ export default function VoterReg() {
                       )}
                     </div>
                   </form>
-                  {regStatus == "0" && votingAddress ? (
+                  {chainId.toString() !== CHAINID ? <div className="text-danger h4 p-2">Please Connect to {CHAIN}</div> : regStatus == "0" && votingAddress ? (
                     <div>
                       <form>
                         <div className="form-group">
@@ -214,6 +217,9 @@ export default function VoterReg() {
                           >
                             Verify OTP
                           </button>
+                          {responseCode === 200 && <div className="text-success h4 p-2">
+                            OTP Sent Successfully
+                          </div>}
                           {correctOtp == "true" ? (
                             <div className="text-success h4 p-2">
                               OTP Verified Successfully
@@ -313,7 +319,7 @@ export default function VoterReg() {
                       <form className="mt-3 d-flex justify-content-center">
                         <button
                           disabled={
-                            // !correctOtp ||
+                            !correctOtp ||
                             picture == "" || user == "" || userAlreadyRegistered
                           }
                           className="btn btn-primary"
