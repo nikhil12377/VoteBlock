@@ -1,0 +1,66 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.2.4",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@thirdweb-dev/react": "^4.6.24",
+    "@thirdweb-dev/sdk": "^4.0.85",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.13",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "assert": "^2.0.0",
+    "bootstrap": "^5.3.3",
+    "browserify-zlib": "latest",
+    "ethers": "^5",
+    "face-api.js": "^0.22.2",
+    "http": "npm:http-browserify",
+    "http-browserify": "latest",
+    "https": "npm:https-browserify",
+    "https-browserify": "latest",
+    "immer": "^10.1.1",
+    "localforage": "^1.10.0",
+    "match-sorter": "^6.3.4",
+    "material-dashboard": "^2.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.0.1",
+    "react-router-dom": "^6.23.1",
+    "react-scripts": "5.0.1",
+    "react-webcam": "^7.2.0",
+    "sort-by": "^1.2.0",
+    "stream": "^0.0.2",
+    "typescript": "^4.4.2",
+    "url": "latest",
+    "web-vitals": "^2.1.0",
+    "zlib": "npm:browserify-zlib"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
