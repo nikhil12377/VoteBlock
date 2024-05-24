@@ -1,6 +1,8 @@
 ## VoteBlock
 A blockchain based voting system.
 
+Project Live at: [VoteBlock](https://vote-block-frontend.vercel.app)
+
 ### Installation and Running
 
 For frontend.
